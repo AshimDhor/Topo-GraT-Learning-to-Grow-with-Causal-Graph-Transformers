@@ -3,7 +3,7 @@
 This repository contains the official implementation of the paper:
 
 **"Topo-GraT: Learning to Grow with Causal Graph Transformers"**  
-Accepted at **AAAI 2026**
+Accepted at **AAAI 2026 Student Abstract**
 
 ---
 
