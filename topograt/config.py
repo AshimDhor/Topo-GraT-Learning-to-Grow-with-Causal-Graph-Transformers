@@ -1,19 +1,10 @@
----
 
-### **File 3: `config.py`**
-
-This file centralizes all your important hyperparameters, making it easy to change them without digging through the code.
-
-```python
-# config.py
-
-# --- Data and Paths ---
 DATA_DIR = "/path/to/your/wsi_datasets/"
 OUTPUT_DIR = "/path/to/save/checkpoints_and_logs/"
 DEVICE = "cuda"
 
 # --- Training Parameters ---
-NUM_EPOCHS = 1000
+NUM_EPOCHS = 100
 LEARNING_RATE = 1e-4
 WEIGHT_DECAY = 5e-4
 BATCH_SIZE_STAGE1 = 16
