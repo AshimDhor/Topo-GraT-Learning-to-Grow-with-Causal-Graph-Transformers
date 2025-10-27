@@ -129,10 +129,3 @@ class CTG_EPA_Block(nn.Module):
         output = x + fused_output
         
         return output, cgf_pred
-
-# ```**Important Note on the Code:**
-# The code above provides a solid, functional implementation of the CTG-EPA block's structure. However, a full, production-level implementation of `Causal Flow Attention` and the `Spatial Attention` projection requires careful handling of positional encodings and tensor manipulations that can be quite complex. I have included comments to highlight where these simplifications have been made. The provided code correctly captures the **architectural spirit** of your paper: the three parallel branches, the CGF prediction, and the gated fusion.
-
-# ---
-
-# We have now built the most innovative part of your model. Please let me know when you are ready for the next step, where we will assemble these blocks into the full Topo-GraT architecture in `models/topo_grat.py`.
