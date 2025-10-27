@@ -1,0 +1,10 @@
+torch>=2.0.0
+torchvision
+monai>=1.2.0
+openslide-python
+timm>=0.9.0
+scikit-image
+opencv-python-headless
+numpy
+matplotlib
+scipy
