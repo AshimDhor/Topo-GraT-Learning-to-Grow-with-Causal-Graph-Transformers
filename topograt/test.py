@@ -18,10 +18,10 @@ def main(args):
     """
     Main function to run the evaluation process.
     """
-    # --- 1. Setup and Configuration ---
+
     print("Starting Topo-GraT evaluation...")
     
-    # Set up device
+
     device = torch.device(config.DEVICE if torch.cuda.is_available() else "cpu")
     print(f"Using device: {device}")
 
@@ -32,7 +32,7 @@ def main(args):
 
     test_dataset = WSIDataset(image_paths=image_paths, mask_paths=mask_paths, patch_size=config.PATCH_SIZE)
     
-    # Use a batch size of 1 for evaluation to process one patch at a time for stitching
+
     test_loader = DataLoader(
         test_dataset,
         batch_size=1, 
@@ -40,22 +40,17 @@ def main(args):
         num_workers=4
     )
 
-    # --- 3. Load Trained Model ---
+
     print(f"Loading model checkpoint from: {args.checkpoint_path}")
     
     model = TopoGraT(in_channels=3, out_channels=2, base_c=32).to(device)
     model.load_state_dict(torch.load(args.checkpoint_path, map_location=device))
     model.eval() # Set the model to evaluation mode
 
-    # --- 4. Evaluation Metrics ---
     # MONAI provides excellent, robust metric calculators
     dice_metric = DiceMetric(include_background=False, reduction="mean")
     hd95_metric = HausdorffDistanceMetric(include_background=False, percentile=95, reduction="mean")
 
-    # --- 5. Inference and Stitching Loop ---
-    # We need to reconstruct the full slide predictions to evaluate them.
-    # We'll store patch predictions in a dictionary.
-    slide_predictions = {}
 
     print("Running inference on test set patches...")
     with torch.no_grad():
@@ -90,7 +85,6 @@ def main(args):
             true_mask_patch = batch['mask'].numpy().astype(np.uint8)
             slide_predictions[slide_idx]['true'][y:y+h, x:x+w] = true_mask_patch[0, 0]
 
-    # --- 6. Calculate Metrics ---
     print("Stitching complete. Calculating final metrics...")
     
     all_preds = []
@@ -99,8 +93,6 @@ def main(args):
         pred_full = slide_predictions[slide_idx]['pred']
         true_full = slide_predictions[slide_idx]['true']
         
-        # MONAI metrics expect (B, C, H, W) format, so we add batch and channel dims
-        # and convert to one-hot format for the Dice metric.
         pred_tensor = torch.from_numpy(pred_full).unsqueeze(0).unsqueeze(0)
         true_tensor = torch.from_numpy(true_full).unsqueeze(0).unsqueeze(0)
         
@@ -110,7 +102,7 @@ def main(args):
         dice_metric(y_pred=pred_one_hot, y=true_one_hot)
         hd95_metric(y_pred=pred_one_hot, y=true_one_hot)
 
-    # Aggregate the metrics
+
     final_dice = dice_metric.aggregate().item()
     final_hd95 = hd95_metric.aggregate().item()
 
