@@ -3,7 +3,7 @@
 This repository contains the official implementation of the paper:
 
 **"Topo-GraT: Learning to Grow with Causal Graph Transformers"**  
-Accepted at **AAAI 2026 Student Abstract**
+Accepted at **AAAI 2026 Student Abstract** track
 
 ---
 
@@ -13,3 +13,7 @@ The paper introduces a new approach to cancer segmentation in whole slide images
 
 
 Our model, Topo-GraT, uses a Causal Growth Field (CGF) to learn the dynamics of tumor invasion and a novel Causal Flow Attention (CFA) to embed this biological prior into the architecture. This method leads to more robust, state-of-the-art segmentation and yields the CGF as an interpretable biomarker for tumor aggressiveness.
+
+## Coming Soon
+
+Pre-trained weights, full training details, and reproducibility instructions will be released shortly.
